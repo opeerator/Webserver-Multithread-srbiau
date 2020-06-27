@@ -32,3 +32,14 @@ class CliThread(Thread):
     mytcpserver.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
     mytcpserver.bind((TCP_IP, TCP_PORT)) 
     threads = [] 
+
+    while True: 
+        tcpServer.listen(4) 
+        print("Server is waiting for TCP connections...!")
+        (conn, (ip,port)) = tcpServer.accept() 
+        newthread = ClientThread(ip,port) 
+        newthread.start() 
+        threads.append(newthread) 
+        
+    for t in threads: 
+    t.join() 
