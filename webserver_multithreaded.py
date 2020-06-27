@@ -8,12 +8,21 @@ from socketserver import ThreadingMixIn
 
 class CliThread(Thread): 
 
+    def run(self): 
+        while True : 
+            data = conn.recv(2048) 
+            print("Server has got your data: " + data)
+            MESSAGE = raw_input("Please give a response from server: (y/n)")
+            if MESSAGE == 'n':
+                break
+            conn.send(MESSAGE)
+
     def __init__(self,ip,port): 
         Thread.__init__(self) 
         self.ip = ip 
         self.port = port 
-        print "[+] New server socket thread started for " + ip + ":" + str(port) 
-        
+        print "This is a new socket for " + ip + ":" + str(port) 
+
     # My socket for tcp server
     BUFFER_SIZE = 20
     TCP_IP = '0.0.0.0' 
